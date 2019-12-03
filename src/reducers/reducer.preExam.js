@@ -1,7 +1,8 @@
 import * as actionType from './../constants';
 
 const defaultState = {
-    questionPaper:[]
+    questionPaper:[],
+    timer:false
 }
 
 const preExam = (state = defaultState, action) => {
@@ -10,7 +11,8 @@ const preExam = (state = defaultState, action) => {
         case actionType.START_EXAM:
             return {
                 ...state,
-                questionPaper:action.payload
+                questionPaper:action.payload,
+                timer:true
             }
         default:
             return state

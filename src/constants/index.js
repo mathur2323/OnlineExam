@@ -1,1 +1,2 @@
 export const START_EXAM = 'START_EXAM';
+export const ANSWER_SELECTED = 'ANSWER_SELECTED';

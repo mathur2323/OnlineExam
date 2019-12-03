@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import { answerSelected } from './../actions'
+import CountdownTimer from '../components/CountdownTimer';
 
 export class Exam extends Component {
     constructor(props) {
@@ -11,8 +13,19 @@ export class Exam extends Component {
             answers: [],
             selectedAnswers:[],
             selectAnswer:false,
-            examone: props.questionPaper
+            examone: props.questionPaper,
+            correct:null,
+            incorrect:null
         }
+    }
+
+    calculateResult = () => {
+        const result = this.props.finalAnswers.filter(item => {
+            if(item.correct == item.answerSelected){
+                return true
+            }
+        })
+        alert(`${result.length} correct answer${result.length <= 1 ? '' : 's'}`)
     }
 
     selectAnswer = (e) => {
@@ -21,10 +34,7 @@ export class Exam extends Component {
             ...examResult[this.state.currentQuestionNumber - 1],
             answerSelected:e.target.value
         }
-        console.log(examResult)
-        this.setState({
-            selectedAnswers:examResult
-        })
+        this.props.answerSelected(examResult)
     }
 
     componentDidMount() {
@@ -60,10 +70,14 @@ export class Exam extends Component {
     }
 
     render() {
-        console.log(this.props)
         return (
             <div>
                 <h1>Exam</h1>
+                {
+                    this.props.timer && <CountdownTimer
+                    calculateResult={this.calculateResult} />
+                }
+                
                 <Question serialNumber={this.state.currentQuestionNumber}
                     question={this.state.currentQuestion}
                     answers={this.state.answers}
@@ -75,7 +89,7 @@ export class Exam extends Component {
                 <button onClick={this.nextQuestion} 
                 disabled={this.state.currentQuestionNumber == this.state.examone.length}>Next</button>
                 {
-                    this.state.currentQuestion == this.state.examone.length ? <button>Submit</button> : null
+                    this.state.currentQuestionNumber == this.state.examone.length ? <button onClick={this.calculateResult}>Submit</button> : null
                 }
             </div>
         )
@@ -99,7 +113,14 @@ const Question = ({ serialNumber, question, answers, selectAnswer, totalQuestion
 }
 
 const mapStateToProps = state => ({
-    questionPaper:state.preExam.questionPaper
+    questionPaper:state.preExam.questionPaper,
+    finalAnswers:state.Exam.finalAnswers,
+    timer:state.preExam.timer
+
 })
 
-export default connect(mapStateToProps, null)(Exam)
+const mapDispatchToProps = dispatch => ({
+    answerSelected:(reqObj)=>dispatch(answerSelected(reqObj)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Exam)
