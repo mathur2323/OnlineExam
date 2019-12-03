@@ -1,0 +1,1 @@
+export const START_EXAM = 'START_EXAM';
