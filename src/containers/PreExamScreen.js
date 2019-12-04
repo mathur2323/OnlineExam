@@ -23,7 +23,7 @@ class PreExamScreen extends Component {
     }
 
     startTest = () => {
-        localStorage.setItem("questions", true)
+        sessionStorage.setItem("questions", true)
         this.props.startExam(questions[this.state.skill]);
         this.props.history.push('/exam');
     }
@@ -33,7 +33,9 @@ class PreExamScreen extends Component {
     }
     render() {
         return (
-            <div>
+            <>
+            {
+                sessionStorage.getItem('isUserRegistered') ?<div>
                 <div>
                     <h1>Exam Information</h1>
                     <h4>Exam Name - Subject</h4>
@@ -54,7 +56,9 @@ class PreExamScreen extends Component {
                         }
                         onClick={this.startTest}>Start</button>
                 </div>
-            </div>
+            </div> : <h1>Unauthorized</h1>
+            }
+            </>
         )
     }
 }

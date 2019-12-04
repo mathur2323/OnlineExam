@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
 class Result extends Component {
     render() {
         console.log(this.props.finalAnswers)
         return (
-            <div>
+            <>
+            {
+                sessionStorage.getItem("isExamOver") ? <div>
                 <h3>{this.props.finalResult} correct answers</h3>
                 <h3>Summary</h3>
                 {
@@ -28,7 +31,9 @@ class Result extends Component {
                         }
                     })
                 }
-            </div>
+            </div> : <NavLink to="/">Start Your Test Now</NavLink>
+            }
+            </>
         )
     }
 }

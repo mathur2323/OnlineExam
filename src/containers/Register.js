@@ -6,9 +6,42 @@ import {
 } from 'reactstrap';
 
 class Register extends Component {
+    constructor() {
+        super()
+    
+        this.state = {
+             name:'',
+             number:'',
+             email:'',
+             password:'',
+             disabled:true
+        }
+    }
+    
+    
     handleSubmit = () => {
+        sessionStorage.setItem("isUserRegistered", true)
         this.props.history.push('/pre-exam')
     }
+
+    handleInput = (e) => {
+        
+        this.setState({
+            [e.target.name]: e.target.value
+        }, ()=>{
+            if( this.state.name!=='' && this.state.number !== '' && this.state.email !== '' && this.state.password !== ''){
+                this.setState({
+                    disabled:false
+                })
+            }
+            else{
+                this.setState({
+                    disabled:true
+                })
+            }
+        })
+    }
+
     render() {
         return (
             <Container className="App">
@@ -21,6 +54,8 @@ class Register extends Component {
                                 type="text"
                                 name="name"
                                 placeholder="Full Name"
+                                onChange={this.handleInput}
+                                value={this.state.name}
                             />
                         </FormGroup>
                     </Col>
@@ -31,6 +66,8 @@ class Register extends Component {
                                 type="number"
                                 name="number"
                                 placeholder="Mobile Number"
+                                onChange={this.handleInput}
+                                value={this.state.number}
                             />
                         </FormGroup>
                     </Col>
@@ -41,6 +78,8 @@ class Register extends Component {
                                 type="email"
                                 name="email"
                                 placeholder="Email Address"
+                                onChange={this.handleInput}
+                                value={this.state.email}
                             />
                         </FormGroup>
                     </Col>
@@ -51,10 +90,12 @@ class Register extends Component {
                                 type="password"
                                 name="password"
                                 placeholder="Password"
+                                onChange={this.handleInput}
+                                value={this.state.password}
                             />
                         </FormGroup>
                     </Col>
-                    <Button>Submit</Button>
+                    <Button color="primary" disabled={this.state.disabled}>Submit</Button>
                 </Form>
             </Container>
         );

@@ -20,7 +20,8 @@ export class Exam extends Component {
     }
 
     calculateResult = () => {
-        localStorage.removeItem("questions")
+        sessionStorage.removeItem("questions")
+        sessionStorage.setItem("isExamOver", true)
         const result = this.props.finalAnswers.filter(item => {
             if (item.correct == item.answerSelected) {
                 return true
@@ -78,7 +79,7 @@ export class Exam extends Component {
             <div>
                 <h1>Exam</h1>
                 {
-                    localStorage.getItem("questions") ? <>
+                    sessionStorage.getItem("questions") ? <>
                         {
                             this.props.timer && <CountdownTimer
                                 calculateResult={this.calculateResult} />
