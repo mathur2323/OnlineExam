@@ -1,7 +1,8 @@
 import * as actionType from './../constants';
 
 const defaultState = {
-    finalAnswers:[]
+    finalAnswers:[],
+    finalResult:null
 }
 
 const Exam = (state = defaultState, action) => {
@@ -10,6 +11,12 @@ const Exam = (state = defaultState, action) => {
             return {
                 ...state,
                 finalAnswers:action.payload
+            }
+
+        case actionType.FINAL_RESULT:
+            return {
+                ...state,
+                finalResult:action.payload
             }
 
         default:

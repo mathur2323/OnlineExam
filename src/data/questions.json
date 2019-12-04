@@ -1,0 +1,62 @@
+{
+    "one":[
+        {
+            "id":1,
+            "question":"What is HTML?",
+            "answers":["A Programming Language","A Scripting Language","A Markup Language","None Of The Above"],
+            "correct":3
+        },
+        {
+            "id":2,
+            "question":"What is CSS?",
+            "answers":["A Programming Language","A Scripting Language","A Markup Language","Stylesheet Language"],
+            "correct":4
+        },
+        {
+            "id":3,
+            "question":"What is JS?",
+            "answers":["A Programming Language","A Scripting Language","A Markup Language","Stylesheet Language"],
+            "correct":2
+        }
+    ],
+    "two":[
+        {
+            "id":1,
+            "question":"What is React?",
+            "answers":["A Programming Language","A Scripting Language","A Framework","A Library"],
+            "correct":4
+        },
+        {
+            "id":2,
+            "question":"What is Redux?",
+            "answers":["A Programming Language","A Scripting Language","A Framework","A Library"],
+            "correct":4
+        }
+    ],
+    "three":[
+        {
+            "id":1,
+            "question":"Lorem Ipsum",
+            "answers":["Dolor","Sit","Amet"],
+            "correct":3
+        },
+        {
+            "id":2,
+            "question":"Lorem Ipsum Dolor",
+            "answers":["Dolor","Sit","Amet"],
+            "correct":3
+        },
+        {
+            "id":3,
+            "question":"Lorem Ipsum Dolor Sit",
+            "answers":["Dolor","Sit","Amet"],
+            "correct":3
+        },
+        {
+            "id":1,
+            "question":"Lorem Ipsum Dolor Sit Amet",
+            "answers":["Dolor","Sit","Amet"],
+            "correct":3
+        }
+    ]
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import { answerSelected } from './../actions'
+import { connect } from 'react-redux'
+import { answerSelected, finalResult } from './../actions'
 import CountdownTimer from '../components/CountdownTimer';
 
 export class Exam extends Component {
@@ -11,37 +11,41 @@ export class Exam extends Component {
             currentQuestionNumber: 1,
             currentQuestion: '',
             answers: [],
-            selectedAnswers:[],
-            selectAnswer:false,
+            selectedAnswers: [],
+            selectAnswer: false,
             examone: props.questionPaper,
-            correct:null,
-            incorrect:null
+            correct: null,
+            incorrect: null
         }
     }
 
     calculateResult = () => {
+        localStorage.removeItem("questions")
         const result = this.props.finalAnswers.filter(item => {
-            if(item.correct == item.answerSelected){
+            if (item.correct == item.answerSelected) {
                 return true
             }
         })
-        alert(`${result.length} correct answer${result.length <= 1 ? '' : 's'}`)
+        this.props.finalResult(result.length);
+        this.props.history.push("/result");
     }
 
     selectAnswer = (e) => {
         let examResult = this.state.examone;
         examResult[this.state.currentQuestionNumber - 1] = {
             ...examResult[this.state.currentQuestionNumber - 1],
-            answerSelected:e.target.value
+            answerSelected: e.target.value
         }
         this.props.answerSelected(examResult)
     }
 
     componentDidMount() {
-        this.setState({
-            currentQuestion: this.state.examone[this.state.currentQuestionNumber - 1].question,
-            answers: this.state.examone[this.state.currentQuestionNumber - 1].answers
-        })
+        if (this.state.examone && this.state.examone[this.state.currentQuestionNumber - 1]) {
+            this.setState({
+                currentQuestion: this.state.examone[this.state.currentQuestionNumber - 1].question,
+                answers: this.state.examone[this.state.currentQuestionNumber - 1].answers
+            })
+        }
     }
 
     nextQuestion = () => {
@@ -51,7 +55,7 @@ export class Exam extends Component {
             }, () => {
                 this.setState({
                     currentQuestion: this.state.examone[this.state.currentQuestionNumber - 1].question,
-                    answers: this.state.examone[this.state.currentQuestionNumber -1].answers
+                    answers: this.state.examone[this.state.currentQuestionNumber - 1].answers
                 })
             })
         }
@@ -63,7 +67,7 @@ export class Exam extends Component {
             }, () => {
                 this.setState({
                     currentQuestion: this.state.examone[this.state.currentQuestionNumber - 1].question,
-                    answers: this.state.examone[this.state.currentQuestionNumber -1].answers
+                    answers: this.state.examone[this.state.currentQuestionNumber - 1].answers
                 })
             })
         }
@@ -74,20 +78,24 @@ export class Exam extends Component {
             <div>
                 <h1>Exam</h1>
                 {
-                    this.props.timer && <CountdownTimer
-                    calculateResult={this.calculateResult} />
+                    localStorage.getItem("questions") ? <>
+                        {
+                            this.props.timer && <CountdownTimer
+                                calculateResult={this.calculateResult} />
+                        }
+                        <Question serialNumber={this.state.currentQuestionNumber}
+                            question={this.state.currentQuestion}
+                            answers={this.state.answers}
+                            selectAnswer={this.selectAnswer}
+                            totalQuestions={this.state.examone.length}
+                        />
+                        <button onClick={this.prevQuestion}
+                            disabled={this.state.currentQuestionNumber == 1}>Previous</button>
+                        <button onClick={this.nextQuestion}
+                            disabled={this.state.currentQuestionNumber == this.state.examone.length}>Next</button>
+                    </> : 'Unauthorized'
                 }
-                
-                <Question serialNumber={this.state.currentQuestionNumber}
-                    question={this.state.currentQuestion}
-                    answers={this.state.answers}
-                    selectAnswer={this.selectAnswer}
-                    totalQuestions={this.state.examone.length}
-                />
-                <button onClick={this.prevQuestion}
-                disabled={this.state.currentQuestionNumber == 1}>Previous</button>
-                <button onClick={this.nextQuestion} 
-                disabled={this.state.currentQuestionNumber == this.state.examone.length}>Next</button>
+
                 {
                     this.state.currentQuestionNumber == this.state.examone.length ? <button onClick={this.calculateResult}>Submit</button> : null
                 }
@@ -102,8 +110,8 @@ const Question = ({ serialNumber, question, answers, selectAnswer, totalQuestion
             <h1>Question {serialNumber}/{totalQuestions}</h1>
             <h3>Q. {question}</h3>
             {
-                answers.map((answer,index) => <div key={`answer${index}`}>
-                    <input type="radio" name={`question${serialNumber}`} value={index+1} onChange={selectAnswer} />
+                answers.map((answer, index) => <div key={`answer${index}`}>
+                    <input type="radio" name={`question${serialNumber}`} value={index + 1} onChange={selectAnswer} />
                     {answer}
                 </div>
                 )
@@ -113,14 +121,14 @@ const Question = ({ serialNumber, question, answers, selectAnswer, totalQuestion
 }
 
 const mapStateToProps = state => ({
-    questionPaper:state.preExam.questionPaper,
-    finalAnswers:state.Exam.finalAnswers,
-    timer:state.preExam.timer
-
+    questionPaper: state.preExam.questionPaper,
+    finalAnswers: state.Exam.finalAnswers,
+    timer: state.preExam.timer
 })
 
 const mapDispatchToProps = dispatch => ({
-    answerSelected:(reqObj)=>dispatch(answerSelected(reqObj)),
+    answerSelected: (reqObj) => dispatch(answerSelected(reqObj)),
+    finalResult: (correctAnswers) => dispatch(finalResult(correctAnswers))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Exam)

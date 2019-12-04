@@ -2,73 +2,12 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {startExam} from './../actions';
+import questions from './../data/questions.json';
 
 class PreExamScreen extends Component {
     state = {
         skill: null,
         terms: false,
-        questions: {
-            one: [
-                {
-                    id: 1,
-                    question: 'What is HTML?',
-                    answers: ['A Programming Language', 'A Scripting Language', 'A Markup Language', 'None Of The Above'],
-                    correct: 3
-                },
-                {
-                    id: 2,
-                    question: 'What is CSS?',
-                    answers: ['A Programming Language', 'A Scripting Language', 'A Markup Language', 'Stylesheet Language'],
-                    correct: 4
-                },
-                {
-                    id: 3,
-                    question: 'What is JS?',
-                    answers: ['A Programming Language', 'A Scripting Language', 'A Markup Language', 'Stylesheet Language'],
-                    correct: 2
-                }
-            ],
-            two:[
-                {
-                    id: 1,
-                    question: 'What is React?',
-                    answers: ['A Programming Language', 'A Scripting Language', 'A Framework', 'A Library'],
-                    correct: 4
-                },
-                {
-                    id: 2,
-                    question: 'What is Redux?',
-                    answers: ['A Programming Language', 'A Scripting Language', 'A Framework', 'A Library'],
-                    correct: 4
-                }
-            ],
-            three:[
-                {
-                    id: 1,
-                    question: 'Lorem Ipsum',
-                    answers: ['Dolor', 'Sit', 'Amet'],
-                    correct: 3
-                },
-                {
-                    id: 2,
-                    question: 'Lorem Ipsum Dolor',
-                    answers: ['Dolor', 'Sit', 'Amet'],
-                    correct: 3
-                },
-                {
-                    id: 3,
-                    question: 'Lorem Ipsum Dolor Sit',
-                    answers: ['Dolor', 'Sit', 'Amet'],
-                    correct: 3
-                },
-                {
-                    id: 1,
-                    question: 'Lorem Ipsum Dolor Sit Amet',
-                    answers: ['Dolor', 'Sit', 'Amet'],
-                    correct: 3
-                }
-            ]
-        }
     }
     handleInput = (e) => {
         if (e.target.name !== 'terms') {
@@ -84,11 +23,14 @@ class PreExamScreen extends Component {
     }
 
     startTest = () => {
-        this.props.startExam(this.state.questions[this.state.skill]);
+        localStorage.setItem("questions", true)
+        this.props.startExam(questions[this.state.skill]);
         this.props.history.push('/exam');
     }
 
-
+    componentDidMount(){
+    
+    }
     render() {
         return (
             <div>

@@ -4,6 +4,7 @@ import Register from './containers/Register';
 import Login from './containers/Login';
 import PreExamScreen from './containers/PreExamScreen';
 import Exam from './containers/Exam';
+import Result from './containers/Result';
 
 class Routes extends Component {
     render() {
@@ -14,6 +15,7 @@ class Routes extends Component {
                     <Route path="/login" component={Login} />
                     <Route path="/pre-exam" component={PreExamScreen} />
                     <Route path="/exam" component={Exam} />
+                    <Route path="/result" component={Result} />
                 </Switch>
             </BrowserRouter>
         )

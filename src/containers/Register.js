@@ -23,8 +23,8 @@ class Register extends Component {
                                 placeholder="Full Name"
                             />
                         </FormGroup>
-                        </Col>
-                        <Col>
+                    </Col>
+                    <Col>
                         <FormGroup>
                             <Label>Contact No.</Label>
                             <Input
@@ -33,8 +33,8 @@ class Register extends Component {
                                 placeholder="Mobile Number"
                             />
                         </FormGroup>
-                        </Col>
-                        <Col>
+                    </Col>
+                    <Col>
                         <FormGroup>
                             <Label>Email</Label>
                             <Input
